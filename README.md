@@ -9,8 +9,9 @@ To use the Docker image, following the below steps.
 First, download the Docker image to your local machine:
 
 ```bash
-docker pull docker.pkg.github.com/jonathanstaniforth/laravel-docker/laravel:latest
+docker pull docker.pkg.github.com/jonathanstaniforth/laravel-docker/laravel:1.0
 ```
+> Navigate to the package tab and select laravel 1.0 for more information on how to use the Docker image.
 
 Next, create a folder called **apache** at the root of the Laravel project. Inside this folder, create a apache configuration file, the filename must end with **.conf**. An example configuration file is shown below:
 
