@@ -1,10 +1,12 @@
-FROM php:7.2-apache
+FROM docker.pkg.github.com/jonathanstaniforth/laravel-docker/laravel:v1.1
 
-# Enable mod_rewrite for apache
-RUN a2enmod rewrite
+LABEL maintainer="jonathanstaniforth@gmail.com"
 
 # Install pdo_pgsql extension for php
 RUN apt-get update \
     && apt-get install -y libpq-dev \
     && docker-php-ext-configure pdo_pgsql \
     && docker-php-ext-install pdo_pgsql
+
+EXPOSE 80/tcp
+EXPOSE 443/tcp

@@ -1,41 +1,71 @@
 # Laravel Docker
 
-This repository contains a Dockerfile that can be used to run a Docker container with a [Laravel](https://laravel.com) project. Both PostgreSQL and MySQL images are provided, found under the package tab.
+This repository contains Docker images that can be used with the PHP framework [Laravel](https://laravel.com). In total, three images are available, listed below:
+
+* laravel - Docker image for a pure laravel setup;
+* laravel-mysql - Docker image for laravel and a MySQL database;
+* laravel-postgresql - Docker image for laravel with a PostgreSQL database.
+
+> Click the **package** tab of this repository to find the available Docker images.
+
+These images provide a portable environment for conveniently developing and deploying Laravel projects, with all the tools needed available out of the box.
 
 ## Setup
 
 To use the Docker image, following the below steps.
 
-First, download the Docker image to your local machine, selecting either the **laravel-mysql** or **laravel-postgresql** image.
+First, download the Docker image to your local machine, selecting one of the available images.
 
 ```bash
 docker pull docker.pkg.github.com/jonathanstaniforth/laravel-docker/<image>:<tag>
 ```
-> Navigate to the package tab and select laravel 1.0 for more information on how to use the Docker image.
 
-Next, create a folder called **apache** at the root of the Laravel project. Inside this folder, create a apache configuration file, the filename must end with **.conf**. An example configuration file is shown below:
-
-```
-<VirtualHost *:80>
-    ServerAdmin webmaster@localhost
-    ServerName localhost
-
-    DocumentRoot /var/www/html/public
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
-```
-
-Finally, run the Docker image as follows:
+Next, run the Docker image as a container as follows, mounting the current directory for the laravel project:
 
 ```bash
-docker run -v $(pwd):/var/www/html -v $(pwd)/apache:/etc/a
-pache2/sites-available -v $(pwd)/apache:/etc/apache2/sites-en
-abled -p 80:80 -p 443:443 <image>:<tag>
+docker run -v $(pwd):/var/www/laravel -p 80:80 -p 443:443 <image>:<tag>
+```
+
+Now, enter the container:
+
+```bash
+docker container ls # Get the container ID
+
+docker exec -it <container_id> bash
+```
+
+Once you are inside the container, setup a fresh Laravel project at **/var/www/laravel**:
+
+```bash
+composer create-project --prefer-dist laravel/laravel .
+```
+
+Finally, navigate to **localhost** using a browser to check that the project is running.
+
+## Apache
+
+The apache configuration is set to serve the **public** folder in **/var/www/laravel**, as shown in the file **/apache.conf**.
+
+If you would like to change the apache configuration, you can override the **sites-available** and **sites-enabled** folders with your own configuration, like so:
+
+```bash
+docker run \
+    -v $(pwd):/var/www/laravel \
+    -v ./apache:/etc/apache2/sites-available \
+    -v ./apache:/etc/apache2/sites-enabled \
+    -p 80:80 \
+    -p 443:443 \
+    <image>:<tag>
 ```
 
 ## Compose file
-The best way to setup the Laravel container is to use a Docker compose file. Two Compose files are available, [**docker-compose-laravel-mysql**](https://gist.github.com/jonathanstaniforth/e03cfd0a91566d382f300d3853b63ffb) and [**docker-compose-laravel-postgresql**](https://gist.github.com/jonathanstaniforth/21db87c998d84d10defd4523a3aae4e7). To use the Compose file, follow the steps below.
+
+Several Docker Compose files are available, providing a convenient way to running the Laravel image with a database. These files are:
+
+* [docker-compose-laravel-mysql](https://gist.github.com/jonathanstaniforth/e03cfd0a91566d382f300d3853b63ffb)
+* [docker-compose-laravel-postgresql](https://gist.github.com/jonathanstaniforth/21db87c998d84d10defd4523a3aae4e7)
+
+To use the Compose files, follow the steps below.
 
 First, clone a Compose file to your local machine at the root of the Laravel project, for example with the MySQL Compose file:
 
