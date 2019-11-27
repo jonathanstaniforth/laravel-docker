@@ -44,7 +44,7 @@ Finally, navigate to **localhost** using a browser to check that the project is 
 
 ## Apache
 
-The apache configuration is set to serve the **public** folder in **/var/www/laravel**, as shown in the file **/apache.conf**.
+The apache configuration is set to serve the **public** folder in **/var/www/laravel**, as shown in the file **/laravel.local.conf**.
 
 If you would like to change the apache configuration, you can override the **sites-available** and **sites-enabled** folders with your own configuration, like so:
 
@@ -123,3 +123,14 @@ docker exec -it <laravel_container_id> bash
 
 php artisan migrate
 ```
+
+### Failed to open stream: Permission denied
+
+This error may occur while the laravel project is processing a request.
+
+```
+UnexpectedValueException
+The stream or file "/var/www/laravel/storage/logs/laravel-2019-11-27.log" could not be opened: failed to open stream: Permission denied
+```
+
+To solve this issue, please read the Laravel documentation on [Directory Permissions](https://laravel.com/docs/6.x/installation).

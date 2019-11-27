@@ -15,9 +15,10 @@ RUN sh composer-installer.sh && \
     rm composer-installer.sh
 
 # Setup Apache
-COPY apache.conf /etc/apache2/sites-available
+COPY laravel.local.conf /etc/apache2/sites-available
 
-RUN  ln -s /etc/apache2/sites-available/apache.conf /etc/apache2/sites-enabled && \
+RUN a2ensite laravel.local.conf && \
+    a2dissite 000-default.conf && \
     a2enmod rewrite
 
 EXPOSE 80/tcp
