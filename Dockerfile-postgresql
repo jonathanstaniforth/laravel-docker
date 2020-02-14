@@ -1,4 +1,4 @@
-FROM docker.pkg.github.com/jonathanstaniforth/laravel-docker/laravel:v1.2.0
+FROM docker.pkg.github.com/jonathanstaniforth/laravel-docker/laravel:v1.3.0
 
 LABEL maintainer="jonathanstaniforth@gmail.com"
 

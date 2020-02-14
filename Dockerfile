@@ -19,7 +19,8 @@ COPY laravel.local.conf /etc/apache2/sites-available
 
 RUN a2ensite laravel.local.conf && \
     a2dissite 000-default.conf && \
-    a2enmod rewrite
+    a2enmod rewrite && \
+    a2enmod ssl
 
 EXPOSE 80/tcp
 EXPOSE 443/tcp
